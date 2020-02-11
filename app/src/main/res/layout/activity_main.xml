@@ -45,9 +45,9 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="279dp"
-        android:layout_height="279dp"
+        android:id="@+id/imageView4"
+        android:layout_width="271dp"
+        android:layout_height="346dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
@@ -56,9 +56,10 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintHorizontal_bias="0.657"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:layout_constraintVertical_bias="0.498"
+        app:srcCompat="@drawable/tasks" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
