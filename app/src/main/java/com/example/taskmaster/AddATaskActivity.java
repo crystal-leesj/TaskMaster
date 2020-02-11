@@ -15,17 +15,17 @@ public class AddATaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_a_task);
 
-//        Button submitATaskButton = findViewById(R.id.addTaskButton);
-//        submitATaskButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                EditText input = findViewById(R.id.taskTitleEditText);
-//                String inputText = input.getText().toString() + " submitted!";
-//
-//                TextView item = AddATaskActivity.this.findViewById(R.id.submitText);
-//                item.setText(inputText);
-//            }
-//        });
+        Button submitATaskButton = findViewById(R.id.addTaskButton);
+        submitATaskButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                EditText input = findViewById(R.id.taskTitleEditText);
+                String inputText = input.getText().toString() + " submitted!";
+
+                TextView item = AddATaskActivity.this.findViewById(R.id.submitText);
+                item.setText(inputText);
+            }
+        });
 
     }
 
