@@ -16,4 +16,24 @@
 <img src="screenshots/lab26/figure3.png" alt="figure3" width="200"/>
 - The all tasks page should just be an image with a back button; it needs no functionality.
 
+***
+
+# TaskMaster
+
+## Lab: 27 - Data in TaskMaster
+### ***Feature Tasks***
+1. Task Detail Page
+<img src="screenshots/lab27/figure4.png" alt="figure4" width="200"/>
+- Create a Task Detail page. It should have a title at the top of the page, and a Lorem Ipsum description.
+
+2. Settings Page
+<img src="screenshots/lab27/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab27/figure2.png" alt="figure2" width="200"/>
+- Create a Settings page. It should allow users to enter their username and hit save.
+
+3. Homepage
+<img src="screenshots/lab27/figure3.png" alt="figure3" width="200"/>
+<img src="screenshots/lab27/figure4.png" alt="figure4" width="200"/>
+- The main page should be modified to contain three different buttons with hardcoded task titles. When a user taps one of the titles, it should go to the Task Detail page, and the title at the top of the page should match the task title that was tapped on the previous page.
+- The homepage should also contain a button to visit the Settings page, and once the user has entered their username, it should display “{username}’s tasks” above the three task buttons.
 
