@@ -37,3 +37,27 @@
 - The main page should be modified to contain three different buttons with hardcoded task titles. When a user taps one of the titles, it should go to the Task Detail page, and the title at the top of the page should match the task title that was tapped on the previous page.
 - The homepage should also contain a button to visit the Settings page, and once the user has entered their username, it should display “{username}’s tasks” above the three task buttons.
 
+***
+
+# TaskMaster
+
+## Lab 28: RecyclerViews for Displaying Lists of Data
+### ***Feature Tasks***
+1. Task Model
+- Create a Task class. A Task should have a title, a body, and a state. The state should be one of “new”, “assigned”, “in progress”, or “complete”.
+
+2. Settings Page
+<img src="screenshots/lab27/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab27/figure2.png" alt="figure2" width="200"/>
+- Create a Settings page. It should allow users to enter their username and hit save.
+
+3. Homepage
+Homepage
+- Refactor your homepage to use a RecyclerView for displaying Task data. This should have hardcoded Task data for now.
+
+- Some steps you will likely want to take to accomplish this:
+
+  - Create a ViewAdapter class that displays data from a list of Tasks.
+  - In your MainActivity, create at least three hardcoded Task instances and use those to populate your RecyclerView/ViewAdapter.
+- Ensure that you can tap on any one of the Tasks in the RecyclerView, and it will appropriately launch the detail page with the correct Task title displayed.
+
