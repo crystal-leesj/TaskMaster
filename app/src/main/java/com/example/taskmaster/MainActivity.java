@@ -56,35 +56,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final Button goToTask1Button = (Button) findViewById(R.id.task1);
-        goToTask1Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String taskTitle = goToTask1Button.getText().toString();
-                Log.i(TAG, taskTitle);
-                saveTitleToSharePrefer(taskTitle);
-            }
-        });
+//        final Button goToTask1Button = (Button) findViewById(R.id.task1);
+//        goToTask1Button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String taskTitle = goToTask1Button.getText().toString();
+//                Log.i(TAG, taskTitle);
+//                saveTitleToSharePrefer(taskTitle);
+//            }
+//        });
 
-        final Button goToTask2Button = (Button) findViewById(R.id.task2);
-        goToTask2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String taskTitle = goToTask2Button.getText().toString();
-                Log.i(TAG, taskTitle);
-                saveTitleToSharePrefer(taskTitle);
-            }
-        });
+//        final Button goToTask2Button = (Button) findViewById(R.id.task2);
+//        goToTask2Button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String taskTitle = goToTask2Button.getText().toString();
+//                Log.i(TAG, taskTitle);
+//                saveTitleToSharePrefer(taskTitle);
+//            }
+//        });
 
-        final Button goToTask3Button = (Button) findViewById(R.id.task3);
-        goToTask3Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String taskTitle = goToTask3Button.getText().toString();
-                Log.i(TAG, taskTitle);
-                saveTitleToSharePrefer(taskTitle);
-            }
-        });
+//        final Button goToTask3Button = (Button) findViewById(R.id.task3);
+//        goToTask3Button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String taskTitle = goToTask3Button.getText().toString();
+//                Log.i(TAG, taskTitle);
+//                saveTitleToSharePrefer(taskTitle);
+//            }
+//        });
     }
 
     private void saveTitleToSharePrefer(String title) {
@@ -96,11 +96,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(goToTaskDetail);
     }
 
-//    public void viewATask(View view) {
-//        Button goToTask1Button = (Button) findViewById(R.id.task1);
-//        Log.i(TAG, goToTask1Button.getText().toString());
-//        this.finish();
-//    }
+
 
     @Override
     protected void onStart() {
