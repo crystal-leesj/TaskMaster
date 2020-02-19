@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,8 +23,9 @@ import java.util.prefs.PreferenceChangeEvent;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String TAG = "crystal.main";
+    String TAG = "crystal.main";
     static List<Task> listOfTask = new ArrayList<>();
+    MyDatabase myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +33,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "we are onCreate");
 
-        this.listOfTask = new LinkedList<>();
-        this.listOfTask.add(new Task("Code Challenge", "Quick sort", "complete"));
-        this.listOfTask.add(new Task("Hot yoga", "Class starts at 7:30 PM", "new"));
-        this.listOfTask.add(new Task("Meal prep", "Buy groceries", "assigned"));
-        RecyclerView recyclerView = findViewById(R.id.fragment);
-//        recyclerView.getAdapter().notifyItemInserted(0);
-//        recyclerView.getLayoutManager().scrollToPosition(0);
+        myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "add_task").allowMainThreadQueries().build();
+
+
+        this.listOfTask = myDb.taskDao().getAll();
+        for(Task item : listOfTask){
+            Log.i(TAG, item.title);
+        }
+//        Task a = new Task("Code Challenge", "Quick sort", "complete");
+//        Task b = new Task("Hot yoga", "Class starts at 7:30 PM", "new");
+//        Task c = new Task("Meal prep", "Buy groceries", "assigned");
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
+
+
+
 
         // Go to Add task page
         Button goToAddATaskButton = (Button) findViewById(R.id.addTaskButton);

@@ -1,10 +1,18 @@
 package com.example.taskmaster;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 class Task {
-    String title;
-    String body;
+
+    @PrimaryKey(autoGenerate = true)
+    long id;
+
+    public String title;
+    public String body;
     // “new”, “assigned”, “in progress”, or “complete”.
-    String state;
+    public String state;
 
     public Task(String title, String body, String state) {
         this.title = title;

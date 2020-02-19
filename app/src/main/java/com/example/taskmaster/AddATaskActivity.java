@@ -2,6 +2,7 @@ package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,11 +18,13 @@ import android.widget.Toast;
 
 public class AddATaskActivity extends AppCompatActivity {
     static String TAG = "crystal.AddATaskActivity";
+    MyDatabase myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_a_task);
+        myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "add_task").allowMainThreadQueries().build();
 
         Button submitATaskButton = findViewById(R.id.addTaskButton);
         submitATaskButton.setOnClickListener(new View.OnClickListener(){
@@ -34,14 +37,14 @@ public class AddATaskActivity extends AppCompatActivity {
                 EditText inputDescription = findViewById(R.id.taskDescriptionEditText);
                 String inputStringDescription = inputDescription.getText().toString();
 
+                Log.i(TAG, "before------->" + MainActivity.listOfTask.size());
+
                 Task newTask = new Task(inputStringTitle, inputStringDescription, "status");
                 MainActivity.listOfTask.add(0, newTask);
+                myDb.taskDao().save(newTask);
 
-                Log.i(TAG, "------->" + MainActivity.listOfTask.size());
+                Log.i(TAG, "after------->" + MainActivity.listOfTask.size());
 
-                RecyclerView recyclerView = findViewById(R.id.fragment);
-                recyclerView.getAdapter().notifyItemInserted(0);
-                recyclerView.getLayoutManager().scrollToPosition(0);
 
 //                Context context = getApplicationContext();
 //                CharSequence submitText = inputStringTitle + " task is submitted!";
@@ -50,8 +53,8 @@ public class AddATaskActivity extends AppCompatActivity {
 //                toast.show();
 //                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
 
-//                Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
-//                AddATaskActivity.this.startActivity(goToMain);
+                Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
+                AddATaskActivity.this.startActivity(goToMain);
             }
         });
 
