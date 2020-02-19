@@ -54,7 +54,7 @@ public class MytaskRecyclerViewAdapter extends RecyclerView.Adapter<MytaskRecycl
                 Context context = v.getContext();
 
                 Intent goToDetailPage = new Intent(mContext, TaskDetailActivity.class);
-                goToDetailPage.putExtra("mTitleView", holder.mTitleView.getText());
+                goToDetailPage.putExtra("mTitleView", holder.mItem.id);
 
                 context.startActivity(goToDetailPage);
 
