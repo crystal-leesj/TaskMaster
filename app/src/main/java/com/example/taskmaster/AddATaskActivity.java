@@ -37,9 +37,12 @@ public class AddATaskActivity extends AppCompatActivity {
                 EditText inputDescription = findViewById(R.id.taskDescriptionEditText);
                 String inputStringDescription = inputDescription.getText().toString();
 
+                EditText inputState = findViewById(R.id.taskStateEditText);
+                String inputStringState = inputState.getText().toString();
+
                 Log.i(TAG, "before------->" + MainActivity.listOfTask.size());
 
-                Task newTask = new Task(inputStringTitle, inputStringDescription, "status");
+                Task newTask = new Task(inputStringTitle, inputStringDescription, inputStringState);
                 MainActivity.listOfTask.add(0, newTask);
                 myDb.taskDao().save(newTask);
 

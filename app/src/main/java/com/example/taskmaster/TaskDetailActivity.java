@@ -34,6 +34,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         TextView taskDescriptionTextView = findViewById(R.id.taskDescription);
         taskDescriptionTextView.setText(oneTask.body);
 
+        TextView taskStateTextView = findViewById(R.id.taskState);
+        taskStateTextView.setText(oneTask.body);
+
 //        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        String taskTitle = sharedPrefs.getString("taskTitle", "default title");
 //
