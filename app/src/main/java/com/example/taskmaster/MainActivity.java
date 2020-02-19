@@ -3,6 +3,8 @@ package com.example.taskmaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,17 +15,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.prefs.PreferenceChangeEvent;
 
 public class MainActivity extends AppCompatActivity {
 
     static String TAG = "crystal.main";
+    static List<Task> listOfTask = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "we are onCreate");
+
+        this.listOfTask = new LinkedList<>();
+        this.listOfTask.add(new Task("Code Challenge", "Quick sort", "complete"));
+        this.listOfTask.add(new Task("Hot yoga", "Class starts at 7:30 PM", "new"));
+        this.listOfTask.add(new Task("Meal prep", "Buy groceries", "assigned"));
+        RecyclerView recyclerView = findViewById(R.id.fragment);
+//        recyclerView.getAdapter().notifyItemInserted(0);
+//        recyclerView.getLayoutManager().scrollToPosition(0);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
 
         // Go to Add task page
         Button goToAddATaskButton = (Button) findViewById(R.id.addTaskButton);
