@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.taskmaster.taskFragment.OnListFragmentInteractionListener;
 import com.example.taskmaster.dummy.DummyContent.DummyItem;
@@ -47,16 +49,28 @@ public class MytaskRecyclerViewAdapter extends RecyclerView.Adapter<MytaskRecycl
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getTitle());
 
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "it was clicked!");
                 Context context = v.getContext();
 
-                Intent goToDetailPage = new Intent(mContext, TaskDetailActivity.class);
-                goToDetailPage.putExtra("mTitleView", holder.mItem.id);
+                if (context.getClass().getName().equals("com.example.taskmaster.AllTasksActivity")) {
 
-                context.startActivity(goToDetailPage);
+                    String description = holder.mItem.body;
+                    CharSequence taskDetails = "Detail: " + description;
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, taskDetails, duration);
+                    toast.show();
+                    toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                } else if (context.getClass().getName().equals("com.example.taskmaster.MainActivity")) {
+                    Intent goToDetailPage = new Intent(mContext, TaskDetailActivity.class);
+                    goToDetailPage.putExtra("mTitleView", holder.mItem.id);
+
+                    context.startActivity(goToDetailPage);
+                }
 
             }
         });

@@ -74,4 +74,18 @@ Modify your Add Task form to save the data entered in as a Task in your local da
 Refactor your homepage’s RecyclerView to display all Task entities in your database.
 
 4. Detail Page
-Ensure that the description and status of a tapped task are also displayed on the detail page, in addition to the title. (Note that you can accomplish this by passing along the entire Task entity, or by passing along only its ID in the intent.)
+Ensure that the description and status of a tapped task are also displayed on the detail page, in addition to the title.(Note that you  can accomplish this by passing along the entire Task entity, or by passing along only its ID in the intent.)
+
+***
+
+# TaskMaster
+
+## Lab 33: Polish and add All Tasks Page
+### ***Feature Tasks***
+App will add a new activity for all tasks with a Recycler View showing all tasks. These tasks must be clickable. When clicked on, trigger a Toast that displays details about the task.
+
+<img src="screenshots/lab33/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab33/figure2.png" alt="figure2" width="200"/>
+<img src="screenshots/lab33/figure3.png" alt="figure3" width="200"/>
+
+***
