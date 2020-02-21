@@ -16,10 +16,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.prefs.PreferenceChangeEvent;
+
+import javax.annotation.Nonnull;
+
+import type.CreateTaskInput;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,29 +40,33 @@ public class MainActivity extends AppCompatActivity {
     static List<Task> listOfTask = new ArrayList<>();
     MyDatabase myDb;
 
+    private AWSAppSyncClient mAWSAppSyncClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "we are onCreate");
 
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
+
         myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "add_task").allowMainThreadQueries().build();
 
-
-        this.listOfTask = myDb.taskDao().getAll();
-        for(Task item : listOfTask){
-            Log.i(TAG, item.title);
-        }
-//        Task a = new Task("Code Challenge", "Quick sort", "complete");
-//        Task b = new Task("Hot yoga", "Class starts at 7:30 PM", "new");
-//        Task c = new Task("Meal prep", "Buy groceries", "assigned");
+        this.listOfTask = new ArrayList<Task>();
+//        this.listOfTask = myDb.taskDao().getAll();
+//        for(Task item : listOfTask){
+//            Log.i(TAG, item.title);
+//        }
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
 
-
+        runTaskQuery();
 
 
         // Go to Add task page
@@ -114,14 +131,43 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void saveTitleToSharePrefer(String title) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("taskTitle", title);
-        editor.commit();
-        Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetailActivity.class);
-        MainActivity.this.startActivity(goToTaskDetail);
+//    private void saveTitleToSharePrefer(String title) {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("taskTitle", title);
+//        editor.commit();
+//        Intent goToTaskDetail = new Intent(MainActivity.this, TaskDetailActivity.class);
+//        MainActivity.this.startActivity(goToTaskDetail);
+//    }
+
+
+    public void runTaskQuery(){
+        mAWSAppSyncClient.query(ListTasksQuery.builder().build())
+                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .enqueue(tasksCallback);
     }
+
+    private GraphQLCall.Callback<ListTasksQuery.Data> tasksCallback = new GraphQLCall.Callback<ListTasksQuery.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<ListTasksQuery.Data> response) {
+            Log.i(TAG + "Results", response.data().listTasks().items().toString());
+            if(listOfTask.size() == 0 || response.data().listTasks().items().size() != listOfTask.size()) {
+
+                listOfTask.clear();
+
+                for (ListTasksQuery.Item item : response.data().listTasks().items()) {
+                    Task task = new Task(item.title(), item.body(), item.state());
+                    listOfTask.add(task);
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e(TAG + "ERROR", e.toString());
+        }
+    };
+
 
 
 

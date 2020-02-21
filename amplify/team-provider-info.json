@@ -1,0 +1,15 @@
+{
+    "todolist": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-taskmaster-todolist-225754-authRole",
+            "UnauthRoleArn": "arn:aws:iam::908354044101:role/amplify-taskmaster-todolist-225754-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::908354044101:role/amplify-taskmaster-todolist-225754-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-taskmaster-todolist-225754-deployment",
+            "UnauthRoleName": "amplify-taskmaster-todolist-225754-unauthRole",
+            "StackName": "amplify-taskmaster-todolist-225754",
+            "StackId": "arn:aws:cloudformation:us-west-2:908354044101:stack/amplify-taskmaster-todolist-225754/7d141150-5477-11ea-b84a-0acc43cbe642",
+            "AmplifyAppId": "d3z0wgg3ihxg6"
+        }
+    }
+}
