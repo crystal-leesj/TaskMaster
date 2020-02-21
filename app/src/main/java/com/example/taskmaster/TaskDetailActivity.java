@@ -25,17 +25,20 @@ public class TaskDetailActivity extends AppCompatActivity {
         myDb = Room.databaseBuilder(getApplicationContext(), MyDatabase.class, "add_task").allowMainThreadQueries().build();
 
 
-        Long id = getIntent().getLongExtra("mTitleView", 0);
-        Task oneTask = myDb.taskDao().getOne(id);
+//        Long id = getIntent().getLongExtra("mTitleView", 0);
+//        Task oneTask = myDb.taskDao().getOne(id);
 
+        String title = getIntent().getStringExtra("title");
         TextView taskTitleTextView = findViewById(R.id.taskTitle);
-        taskTitleTextView.setText(oneTask.title);
+        taskTitleTextView.setText(title);
 
+        String body = getIntent().getStringExtra("body");
         TextView taskDescriptionTextView = findViewById(R.id.taskDescription);
-        taskDescriptionTextView.setText(oneTask.body);
+        taskDescriptionTextView.setText(body);
 
+        String state = getIntent().getStringExtra("state");
         TextView taskStateTextView = findViewById(R.id.taskState);
-        taskStateTextView.setText(oneTask.state);
+        taskStateTextView.setText(state);
 
 //        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        String taskTitle = sharedPrefs.getString("taskTitle", "default title");

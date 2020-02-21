@@ -10,6 +10,9 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i(TAG, item.title);
 //        }
 
+        runTaskQuery();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
 
-        runTaskQuery();
 
 
         // Go to Add task page
@@ -160,6 +163,16 @@ public class MainActivity extends AppCompatActivity {
                     listOfTask.add(task);
                 }
             }
+            Handler handlerForMainThread = new Handler(Looper.getMainLooper()){
+                @Override
+                public void handleMessage(Message inputMessage){
+                    RecyclerView recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            };
+
+            handlerForMainThread.obtainMessage().sendToTarget();
+
         }
 
         @Override

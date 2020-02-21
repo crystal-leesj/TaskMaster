@@ -78,8 +78,8 @@ public class AddATaskActivity extends AppCompatActivity {
 //                toast.show();
 //                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
 
-                Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
-                AddATaskActivity.this.startActivity(goToMain);
+//                Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
+//                AddATaskActivity.this.startActivity(goToMain);
             }
         });
 

@@ -66,8 +66,11 @@ public class MytaskRecyclerViewAdapter extends RecyclerView.Adapter<MytaskRecycl
                     toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
 
                 } else if (context.getClass().getName().equals("com.example.taskmaster.MainActivity")) {
+
                     Intent goToDetailPage = new Intent(mContext, TaskDetailActivity.class);
-                    goToDetailPage.putExtra("mTitleView", holder.mItem.id);
+                    goToDetailPage.putExtra("title", holder.mItem.title);
+                    goToDetailPage.putExtra("body", holder.mItem.body);
+                    goToDetailPage.putExtra("state", holder.mItem.state);
 
                     context.startActivity(goToDetailPage);
                 }
