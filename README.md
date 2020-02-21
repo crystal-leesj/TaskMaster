@@ -89,3 +89,22 @@ App will add a new activity for all tasks with a Recycler View showing all tasks
 <img src="screenshots/lab33/figure3.png" alt="figure3" width="200"/>
 
 ***
+
+# TaskMaster
+
+## Lab: 34 - Amplify and DynamoDB
+### ***Feature Tasks***
+1. Tasks Are Cloudy
+Using the amplify add api command, create a Task resource that replicates our existing Task schema. Update all references to the Task data to instead use AWS Amplify to access your data in DynamoDB instead of in Room.
+
+2. Add Task Form
+Modify your Add Task form to save the data entered in as a Task to DynamoDB.
+
+3. Homepage
+Refactor your homepage’s RecyclerView to display all Task entities in DynamoDB.
+
+<img src="screenshots/lab34/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab34/figure2.png" alt="figure2" width="200"/>
+<img src="screenshots/lab34/figure3.png" alt="figure3" width="200"/>
+
+***
