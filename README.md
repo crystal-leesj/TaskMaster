@@ -108,3 +108,19 @@ Refactor your homepage’s RecyclerView to display all Task entities in DynamoDB
 <img src="screenshots/lab34/figure3.png" alt="figure3" width="200"/>
 
 ***
+
+# TaskMaster
+
+## Lab 36: Adding Cognito
+### ***Feature Tasks***
+1. User Login
+Add Cognito to your Amplify setup. Add in user login and sign up flows to your application, using Cognito’s pre-built UI as appropriate. Display the logged in user’s username somewhere relevant in your app.
+
+2. User Logout
+Allow users to log out of your application.
+
+<img src="screenshots/lab36/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab36/figure2.png" alt="figure2" width="200"/>
+<img src="screenshots/lab36/figure3.png" alt="figure3" width="200"/>
+
+***
