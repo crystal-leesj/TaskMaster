@@ -10,6 +10,11 @@
             "StackName": "amplify-taskmaster-todolist-225754",
             "StackId": "arn:aws:cloudformation:us-west-2:908354044101:stack/amplify-taskmaster-todolist-225754/7d141150-5477-11ea-b84a-0acc43cbe642",
             "AmplifyAppId": "d3z0wgg3ihxg6"
+        },
+        "categories": {
+            "auth": {
+                "taskmaster9753dd18": {}
+            }
         }
     }
 }
