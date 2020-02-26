@@ -124,3 +124,19 @@ Allow users to log out of your application.
 <img src="screenshots/lab36/figure3.png" alt="figure3" width="200"/>
 
 ***
+
+# TaskMaster
+
+## Lab 37: S3 Uploads
+### ***Feature Tasks***
+1. Uploads
+On the “Add a Task” activity, allow users to optionally select a file to attach to that task. If a user attaches a file to a task, that file should be uploaded to S3, and associated with that task.
+
+2. Displaying Files
+On the Task detail activity, if there is a file that is an image associated with a particular Task, that image should be displayed within that activity. (If the file is any other type, you should display a link to it.)
+
+<img src="screenshots/lab37/figure1.png" alt="figure1" width="200"/>
+<img src="screenshots/lab37/figure2.png" alt="figure2" width="200"/>
+
+
+***
