@@ -140,3 +140,13 @@ On the Task detail activity, if there is a file that is an image associated with
 
 
 ***
+
+# TaskMaster
+
+## Lab: 40 - Notifications
+### ***Feature Tasks***
+1. Notifications on Task Creation
+When a new task is created within a team, alert all users who are a part of that team about that new task.
+
+
+***

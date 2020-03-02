@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -22,6 +23,9 @@ android {
 apply plugin: 'com.amazonaws.appsync'
 
 dependencies {
+    // add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
     implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
 
     //For AWSMobileClient only:
