@@ -1,35 +1,31 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.amazonaws.amplify.generated.graphql.CreateTaskMutation;
-import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -37,6 +33,7 @@ import com.apollographql.apollo.exception.ApolloException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +43,6 @@ public class AddATaskActivity extends AppCompatActivity {
     static String TAG = "crystal.AddATaskActivity";
     MyDatabase myDb;
     private AWSAppSyncClient mAWSAppSyncClient;
-    static final int PICK_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,19 +67,10 @@ public class AddATaskActivity extends AppCompatActivity {
                 uploadImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.i(TAG, "S3 Button TEST----!!");
-//                        uploadWithTransferUtility();
-//                        Intent i = new Intent(Intent.ACTION_PICK);
-//                        i.setType("image/*");
-//                        startActivity(i);
 
+                        pickImage(view);
 
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-
-                    }
+                     }
 
                 });
             }
@@ -136,7 +123,39 @@ public class AddATaskActivity extends AppCompatActivity {
 
     }
 
-    public void uploadWithTransferUtility() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 777 && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            Log.d(TAG, "------------selectedImage" + selectedImage);
+            View inflatedView = getLayoutInflater().inflate(R.layout.activity_task_detail, null);
+            ImageView imageView = inflatedView.findViewById(R.id.taskImage);
+            imageView.setImageURI(selectedImage);
+
+            uploadWithTransferUtility(selectedImage);
+
+        }
+    }
+
+    public void pickImage(View v) {
+        Log.d(TAG, "Image button clicked!");
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, 777);
+    }
+
+    public void uploadWithTransferUtility(Uri uri) {
+
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = getContentResolver().query(uri,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
 
         TransferUtility transferUtility =
                 TransferUtility.builder()
@@ -145,20 +164,11 @@ public class AddATaskActivity extends AppCompatActivity {
                         .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
                         .build();
 
-        File file = new File(getApplicationContext().getFilesDir(), "sampleAddTask.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.append("Howdy World!");
-            writer.close();
-        }
-        catch(Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-
+        final String uuid = UUID.randomUUID().toString();
         TransferObserver uploadObserver =
                 transferUtility.upload(
-                        "public/sampleAddTask.txt",
-                        new File(getApplicationContext().getFilesDir(),"sampleAddTask.txt"));
+                        "public/" + uuid,
+                        new File(picturePath), CannedAccessControlList.PublicRead);
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
