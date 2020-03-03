@@ -6,7 +6,10 @@ import androidx.room.Room;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -39,6 +42,13 @@ public class TaskDetailActivity extends AppCompatActivity {
         String state = getIntent().getStringExtra("state");
         TextView taskStateTextView = findViewById(R.id.taskState);
         taskStateTextView.setText(state);
+
+        String image = getIntent().getStringExtra("image");
+        ImageView imageView = findViewById(R.id.taskImage);
+
+        String url = "https://taskmasterdd5d91692b1a4f63b7f25bcf159d85a1225754-todolist.s3-us-west-2.amazonaws.com/" + image;
+
+        Picasso.get().load(url).resize(50,50).centerCrop().into(imageView);
 
 //        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        String taskTitle = sharedPrefs.getString("taskTitle", "default title");

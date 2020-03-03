@@ -1,8 +1,13 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +29,8 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.apollographql.apollo.GraphQLCall;
@@ -43,6 +50,7 @@ public class AddATaskActivity extends AppCompatActivity {
     static String TAG = "crystal.AddATaskActivity";
     MyDatabase myDb;
     private AWSAppSyncClient mAWSAppSyncClient;
+    String uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +113,7 @@ public class AddATaskActivity extends AppCompatActivity {
 //                Log.i(TAG, "after------->" + MainActivity.listOfTask.size());
 
 
-                runAddTaskMutation(inputStringTitle, inputStringDescription, inputStringState);
+                runAddTaskMutation(inputStringTitle, inputStringDescription, inputStringState, "public/" + uuid);
 
 
 //                Context context = getApplicationContext();
@@ -130,9 +138,9 @@ public class AddATaskActivity extends AppCompatActivity {
         if (requestCode == 777 && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             Log.d(TAG, "------------selectedImage" + selectedImage);
-            View inflatedView = getLayoutInflater().inflate(R.layout.activity_task_detail, null);
-            ImageView imageView = inflatedView.findViewById(R.id.taskImage);
-            imageView.setImageURI(selectedImage);
+
+
+//            imageView.setImageURI(selectedImage);
 
             uploadWithTransferUtility(selectedImage);
 
@@ -141,9 +149,28 @@ public class AddATaskActivity extends AppCompatActivity {
 
     public void pickImage(View v) {
         Log.d(TAG, "Image button clicked!");
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, 777);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        } else {
+            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            i.setType("image/*");
+            startActivityForResult(i, 777);
+        }
+
     }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode != 0) {
+            return;
+        }
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Intent grabFileIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            grabFileIntent.setType("image/*");
+//                grabFileIntent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,);
+            startActivityForResult(grabFileIntent, 777);
+        }
+    }
+
 
     public void uploadWithTransferUtility(Uri uri) {
 
@@ -161,14 +188,15 @@ public class AddATaskActivity extends AppCompatActivity {
                 TransferUtility.builder()
                         .context(getApplicationContext())
                         .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance(), Region.getRegion(Regions.DEFAULT_REGION)))
                         .build();
 
-        final String uuid = UUID.randomUUID().toString();
+        uuid = UUID.randomUUID().toString();
         TransferObserver uploadObserver =
                 transferUtility.upload(
+                        "taskmasterdd5d91692b1a4f63b7f25bcf159d85a1225754-todolist",
                         "public/" + uuid,
-                        new File(picturePath), CannedAccessControlList.PublicRead);
+                        new File(picturePath));
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
@@ -207,11 +235,12 @@ public class AddATaskActivity extends AppCompatActivity {
     }
 
 
-    public void runAddTaskMutation(String title, String body, String state){
+    public void runAddTaskMutation(String title, String body, String state, String uuid){
         CreateTaskInput createTodoInput = CreateTaskInput.builder().
                 title(title).
                 body(body).
                 state(state).
+                image(uuid).
                 build();
 
         mAWSAppSyncClient.mutate(CreateTaskMutation.builder().input(createTodoInput).build())
