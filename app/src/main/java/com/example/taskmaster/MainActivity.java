@@ -78,11 +78,7 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i(TAG, item.title);
 //        }
 
-        runTaskQuery();
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
 
 
 
@@ -168,9 +164,10 @@ public class MainActivity extends AppCompatActivity {
                 listOfTask.clear();
 
                 for (ListTasksQuery.Item item : response.data().listTasks().items()) {
-                    Task task = new Task(item.title(), item.body(), item.state());
+                    Task task = new Task(item.title(), item.body(), item.state(), item.image());
                     listOfTask.add(task);
                 }
+
             }
             Handler handlerForMainThread = new Handler(Looper.getMainLooper()){
                 @Override
@@ -207,6 +204,12 @@ public class MainActivity extends AppCompatActivity {
         String username = AWSMobileClient.getInstance().getUsername();
         TextView usernameTextView = findViewById(R.id.usernameTextView);
         usernameTextView.setText(username + "'s task");
+
+        runTaskQuery();
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new MytaskRecyclerViewAdapter(this.listOfTask, null, this));
     }
 
     @Override

@@ -71,6 +71,7 @@ public class MytaskRecyclerViewAdapter extends RecyclerView.Adapter<MytaskRecycl
                     goToDetailPage.putExtra("title", holder.mItem.title);
                     goToDetailPage.putExtra("body", holder.mItem.body);
                     goToDetailPage.putExtra("state", holder.mItem.state);
+                    goToDetailPage.putExtra("image", holder.mItem.image);
 
                     context.startActivity(goToDetailPage);
                 }

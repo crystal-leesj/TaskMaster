@@ -13,11 +13,13 @@ class Task {
     public String body;
     // “new”, “assigned”, “in progress”, or “complete”.
     public String state;
+    public String image;
 
-    public Task(String title, String body, String state) {
+    public Task(String title, String body, String state, String image) {
         this.title = title;
         this.body = body;
         this.state = state;
+        this.image = image;
     }
 
     public String getTitle() {
