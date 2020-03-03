@@ -123,8 +123,7 @@ public class AddATaskActivity extends AppCompatActivity {
 //                toast.show();
 //                toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
 
-                Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
-                AddATaskActivity.this.startActivity(goToMain);
+
             }
         });
 
@@ -251,6 +250,8 @@ public class AddATaskActivity extends AppCompatActivity {
         @Override
         public void onResponse(@Nonnull Response<CreateTaskMutation.Data> response) {
             Log.i(TAG, "Added a TASK");
+            Intent goToMain =  new Intent(AddATaskActivity.this, MainActivity.class);
+            AddATaskActivity.this.startActivity(goToMain);
         }
 
         @Override
