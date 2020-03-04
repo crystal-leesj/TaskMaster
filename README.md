@@ -164,3 +164,15 @@ Add an intent filter to your application such that a user can hit the â€œshareâ€
 
 
 ***
+
+# TaskMaster
+
+## Lab 42: Location
+### ***Feature Tasks***
+1. Location
+When the user adds a task, their location should be retrieved and included as part of the saved Task.
+
+2. Displaying Location
+On the Task Detail activity, the location of a Task should be displayed if it exists.
+
+***
